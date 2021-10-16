@@ -1,0 +1,52 @@
+     A          R AUTOINFO
+     A                                  1 71DATE
+     A                                      EDTCDE(Y)
+     A                                  1  2USER
+     A                                  2 21'A U T O   I N S U R A N C E   Q U -
+     A                                      O T E'
+     A                                  2  2'SHANI PATEL'
+     A                                  4  6'Your Replacement Value:'
+     A                                  6  6'Annual Kilometres Driven:'
+     A                                  8  6'Year of Vehicle:'
+     A            REPLACEVAL     7  0B  4 33
+     A  97                                  DSPATR(RI PC)
+     A  75                                  DSPATR(PR)
+     A  97                              4 50'Value must not be zero'
+
+     A  97                              4 45' '
+
+     A            KILOMETERS     6  0B  6 33
+     A  98                                  DSPATR(RI PC)
+     A  75                                  DSPATR(PR)
+     A  98                              6 50'Kilometers must not be zero'
+     A            VYEAR           L  B  8 33
+     A  99
+     AO 91                                  DSPATR(RI PC)
+     A  75                                  DSPATR(PR)
+     A  99                              8 50'Year must be > 1886-01-29 '
+     A  91                              9 50'Vehicle Year > Current Date'
+
+     A                                 10  4'D R I V I N G  R E C O R D S '
+     A                                 11  6'At Fault Accidents:'
+     A            ACCIDENTS      2  0B 11 32RANGE(1 10)
+     A                                      EDTCDE(1)
+     A  75                                  DSPATR(PR)
+     A                                 11 41'Number of Traffic Tickets:'
+     A            TICKETS        2  0B 11 69RANGE(1 10)
+     A                                      EDTCDE(1)
+     A  75                                  DSPATR(PR)
+     A                                 12  6'Current Demerit Points:'
+     A            DEMERITS       2  0B 12 32RANGE(1 15)
+     A                                      EDTCDE(1)
+     A  75                                  DSPATR(PR)
+     A          R AUTOQUOTE                 CF03(03 'Exit Key')
+     A                                      OVERLAY
+     A                                 17  6'Vehicle'
+     A                                 18  8'Age'
+     A                                 17 23'Annual'
+     A                                 18 24'Cost'
+     A            AGE            3  0O 20  8EDTCDE(1)
+     A            COST           7  2  20 22EDTCDE(1)
+     A                                 23  8'F3 - Exit'
+     A                                 19 44' '
+                                                         
