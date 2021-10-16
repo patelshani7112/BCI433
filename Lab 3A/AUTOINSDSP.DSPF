@@ -1,0 +1,46 @@
+000001210925     A          R AUTOINFO
+000002210922     A                                  1 71DATE
+000003210922     A                                      EDTCDE(Y)
+000004210922     A                                  1  2USER
+000005210922     A                                  2 21'A U T O   I N S U R A N C E   Q U -
+000006210922     A                                      O T E'
+000007210922     A                                  2  2'SHANI PATEL'
+000008210922     A                                  4  6'Your Replacement Value:'
+000009210922     A                                  6  6'Annual Kilometres Driven:'
+000010210922     A                                  8  6'Year of Vehicle:'
+000011210925     A  97        REPLACEVAL     7  0B  4 32
+000012210925     A  97                                  DSPATR(RI PC)
+000013210925     A  75                                  DSPATR(PR)
+000014210922     A  97                              4 45'Value must not be zero'
+000015210928     A  98        KILOMETERS     6J  B  6 32
+000016210925     A  98                                  DSPATR(RI PC)
+000017210925     A  75                                  DSPATR(PR)
+000018210922     A  98                              6 45'Kilometers must not be zero'
+000019210925     A  99        VYEAR           L  B  8 32DATFMT(*ISO)
+000020210925     A                                      DSPATR(RI PC)
+000021210925     A  75                                  DSPATR(PR)
+000022210925     A  99                              8 45'Year must be > 1886-01-29'
+000023210922
+000024210925     A                                 10  4'D R I V I N G  R E C O R D S '
+000025210925     A                                 11  6'At Fault Accidents:'
+000026210925     A            ACCIDENTS      2  0B 11 32RANGE(1 10)
+000027210925     A                                      EDTCDE(1)
+000028210925     A  75                                  DSPATR(PR)
+000029210925     A                                 11 41'Number of Traffic Tickets:'
+000030210925     A            TICKETS        2  0B 11 69RANGE(1 10)
+000031210925     A                                      EDTCDE(1)
+000032210925     A  75                                  DSPATR(PR)
+000033210925     A                                 12  6'Current Demerit Points:'
+000034210925     A            DEMERITS       2  0B 12 32RANGE(1 15)
+000035210925     A                                      EDTCDE(1)
+000036210925     A  75                                  DSPATR(PR)
+000037210922     A          R AUTOQUOTE                 CF03(03 'Exit Key')
+000038210922     A                                      OVERLAY
+000039210925     A                                 17  6'Vehicle'
+000040210925     A                                 18  8'Age'
+000041210925     A                                 17 23'Annual'
+000042210925     A                                 18 24'Cost'
+000043210925     A            AGE            3  0O 20  8EDTCDE(1)
+000044210925     A            COST           7  2  20 22EDTCDE(1)
+000045210925     A                                 23  8'F3 - Exit'
+000100      
