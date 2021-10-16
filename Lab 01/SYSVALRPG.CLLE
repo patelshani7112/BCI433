@@ -1,0 +1,15 @@
+/*******************************************************************/
+/*                                                                 */
+/* SYSVALPRG - display systems value                               */
+/*                                                                 */
+/* coded by: SHANI PATEL                                           */
+/*                                                                 */
+/* signature: SHANI PATEL                                          */
+/*******************************************************************/
+                           -
+DSPLIBL
+EDTLIBL
+DSPLIBL
+DSPSYSVAL QSYSLIBL
+DSPSYSVAL QUSRLIBL
+DSPSYSVAL QMODEL  
