@@ -1,142 +1,51 @@
-         DCL-F HWYTollDsp Workstn;
-         DCL-S AdjuctHour PACKED(2);
-                EXFMT TOLLINFO;
-                DOW NOT(*IN03);
-                  IF Kilometers = 0;
-                    *IN60 = *ON;
-                    *IN65 = *ON;
-                    EXFMT TOLLINFO;
-                    *IN60 = *OFF;
-                    *IN65 = *OFF;
-                   ITER;
-                   ELSEIF Vehicle = ' ';
-                    *IN61 = *ON;
-                    *IN65 = *ON;
-                    EXFMT TOLLINFO;
-                    *IN61 = *OFF;
-                    *IN65 = *OFF;
-                    ITER;
-                   ELSEIF Hour = 0;
-                    *IN62 = *ON;
-                    *IN65 = *ON;
-                    EXFMT TOLLINFO;
-                    *IN62 = *OFF;
-                    *IN65 = *OFF;
-                    ITER;
-                   ELSEIF AMPM = ' ';
-                    *IN63 = *ON;
-                    *IN65 = *ON;
-                    EXFMT TOLLINFO;
-                    *IN63 = *OFF;
-                    *IN65 = *OFF;
-                    ITER;
-                   ELSEIF Transpndr = ' ';
-                    *IN64 = *ON;
-                    *IN65 = *ON;
-                    EXFMT TOLLINFO;
-                    *IN64 = *OFF;
-                    *IN65 = *OFF;
-                    ITER;
-                  ENDIF;
-                EXSR SetTollRate;
-                TollCharge = Kilometers * TollRate;
-                IF Transpndr = 'N';
-                  NoTransp = 4.07;
-                ELSE;
-                  NoTransp = 0;
-                ENDIF;
-                TotalDue = TollCharge + NoTransp;
-                *IN99 = *ON;
-                WRITE TollInfo;
-                EXFMT ShowToll;
-                *IN99 = *OFF;
-                IF *IN03 = *OFF;
-                  EXSR  CLEAR;
-                  EXFMT TollInfo;
-                ENDIF;
-                ENDDO;
-              *INLR = *ON;
-              RETURN;
-
-               BEGSR CLEAR;
-                 KILOMETERS = 0;
-                 Vehicle = ' ';
-                 Hour = 0;
-                 AMPM = ' ';
-                 Transpndr = ' ';
-               ENDSR;
-
-              BEGSR SetTollRate;
-                EXSR AdjustTime;
-                SELECT;
-                       WHEN Vehicle = 'L';
-                         EXSR LightVehicle;
-                       WHEN Vehicle = 'H';
-                         EXSR HeavyVehicle;
-                       WHEN Vehicle = 'M';
-                         EXSR MultVehicle;
-                ENDSL;
-              ENDSR;
-
-              BEGSR AdjustTime;
-                SELECT;
-                     WHEN AMPM = 'PM' and Hour <> 12;
-                       AdjuctHour = Hour + 12;
-                     WHEN AMPM = 'AM' and Hour = 12;
-                       AdjuctHour = 0;
-                       OTHER;
-                       AdjuctHour = Hour;
-                ENDSL;
-              ENDSR;
-
-             BEGSR LightVehicle;
-               SELECT;
-                 When AdjuctHour < 6;
-                    TollRate = .2115;
-                 When AdjuctHour >= 19;
-                    TollRate = .2115;
-                 When AdjuctHour >= 16;
-                    TollRate = .4055;
-                 When AdjuctHour >= 10;
-                    TollRate = .2733;
-                 When AdjuctHour >= 9;
-                    TollRate = .3347;
-                 When AdjuctHour >= 6;
-                    TollRate = .3507;
-               ENDSL;
-             ENDSR;
-
-             BEGSR  MultVehicle;
-               SELECT;
-                 When AdjuctHour < 6;
-                    TollRate = .4315;
-                 When AdjuctHour >= 19;
-                    TollRate = .4315;
-                 When AdjuctHour >= 16;
-                    TollRate = .7786;
-                 When AdjuctHour >= 10;
-                    TollRate = .5664;
-                 When AdjuctHour >= 9;
-                    TollRate = .6418;
-                 When AdjuctHour >= 6;
-                    TollRate = .7218;
-               ENDSL;
-             ENDSR;
+     A          R TOLLINFO
+     A                                  1  2USER
+     A                                  1 71DATE
+     A                                      EDTCDE(Y)
+     A                                  2 24'H I G H W A Y  4 0 8   T O L L S'
+     A                                  4 25'Trip Information'
+     A  65                              5 21'Zeroes or Blanks not allowed'
+     A  65                                  DSPATR(RI)
+     A                                  6  7'Kilometres traveled:'
+     A            KILOMETERS     3  0B  6 28
+     A  60                                  DSPATR(RI PC)
+     A  99                                  DSPATR(PR)
+     A                                  8  7'Type of Vehicle:'
+     A            VEHICLE        1   B  8 28VALUES('L' 'H' 'M')
+     A  61                                  DSPATR(RI PC)
+     A  99                                  DSPATR(PR)
+     A                                  8 32'(L- Light, H-Heavy, M-Multiple Hea-
+     A                                      vy)'
+     A                                 10  7'Time of Day'
+     A            HOUR           2  0B 10 28RANGE(1 12)
+     A  62                                  DSPATR(RI PC)
+     A  99                                  DSPATR(PR)
+     A                                 10 32'(01 -12)'
+     A            AMPM           2   B 10 42VALUES('AM' 'PM')
+     A  63                                  DSPATR(RI PC)
+     A  99                                  DSPATR(PR)
+     A                                 10 46'(AM or PM)'
+     A                                 12  7'Transponder:'
+     A            TRANSPNDR      1A  B 12 29
+     A  64                                  DSPATR(RI PC)
+     A  99                                  DSPATR(PR)
+     A                                      VALUES('Y' 'N')
+     A                                 12 32'(Y N)'
 
 
-             BEGSR HeavyVehicle;
-               SELECT;
-                 When AdjuctHour < 6;
-                    TollRate = .6615;
-                 When AdjuctHour >= 19;
-                    TollRate = .6615;
-                 When AdjuctHour >= 16;
-                    TollRate = .11725;
-                 When AdjuctHour >= 10;
-                    TollRate = .8895;
-                 When AdjuctHour >= 9;
-                    TollRate = .9975;
-                 When AdjuctHour >= 6;
-                    TollRate = .11222;
-               ENDSL;
-             ENDSR;                           
+
+     A          R SHOWTOLL
+     A                                      CF03(03)
+     A                                      OVERLAY
+     A                                 13 23'Applicable Toll Charges'
+     A                                 15  9'Toll Rate:'
+     A            TOLLRATE       5Y 4  15 35EDTCDE(1 $)
+     A                                 17  8' Toll Charges:'
+     A            TOLLCHARGE     5Y 2  17 35EDTCDE(1 $)
+     A                                 19  9'No Transponder Charge:'
+     A            NOTRANSP       5Y 2  19 36EDTCDE(1)
+     A                                 21  9'T o t a l  C h a r g e s:'
+     A            TOTALDUE       5Y 2  21 35EDTWRD('   .  ')
+     A                                 23  3'F3 - Exit'
+
+                                                        
