@@ -1,0 +1,85 @@
+             PGM
+             DCLF       LAB4DSP
+             DCL        &OUTQ *CHAR 10
+             DCL        &OUTQLIB *CHAR 10
+             DCL        &USER *CHAR 10
+             DCL        &MAXSIGN *CHAR 6
+             DCL        &PRVSIGN *CHAR 13
+             DCL        &DATE *CHAR 8
+             DCL        &TIME *CHAR 8
+             DCL        &SYSLVL *CHAR 9
+
+             SNDRCVF
+             DOWHILE    (&IN03 = '0')
+
+
+                SELECT
+                   WHEN       (&OPTION = '1' *OR &OPTION = '01') DO
+                      RTVUSRPRF  OUTQ(&OUTQ) OUTQLIB(&OUTQLIB)
+                      CHGVAR     &MESSAGE ('Signed on User''s message Queue is QUSRSYS' *CAT +
+                                   '/' *CAT &OUTQ)
+                      CHGVAR     &MESSAGE1 ('CLLE Programs can report on and manage the users +
+                                   on the system')
+
+                   ENDDO
+                   WHEN       (&OPTION = '2' *OR &OPTION = '02') CALLSUBR OPTION2
+                   WHEN       (&OPTION = '3' *OR &OPTION = '03') CALLSUBR OPTION3
+                   WHEN       (&OPTION = '4' *OR &OPTION = '04') CALLSUBR OPTION4
+                   WHEN       (&OPTION = '5' *OR &OPTION = '05') CALLSUBR OPTION5
+                   OTHERWISE  CALLSUBR INVALID
+                ENDSELECT
+                Select
+                   WHEN       (&IN21= '1') CALL QUSCMDLN
+                EndSelect
+                SNDRCVF
+
+
+             ENDDO
+
+
+                SUBR       OPTION2
+                   CALL       AUTOINSRPG
+                   CHGVAR     &MESSAGE (' ')
+                   CHGVAR     &MESSAGE1 (' ')
+                   CHGVAR     &INVALID (' ')
+                ENDSUBR
+                SUBR       OPTION3
+                   RTVSYSVAL  SYSVAL(QMAXSIGN) RTNVAR(&MAXSIGN)
+                   CHGVAR     &MESSAGE ('Maximum invalid signons allowed: ' *CAT &MAXSIGN +
+                                *BCAT '(tries)' )
+                   CHGVAR     &MESSAGE1 ('CLLE Programs can report on system and manage system +
+                                wide seetings')
+                   CHGVAR     &INVALID (' ')
+
+                ENDSUBR
+                SUBR       OPTION4
+                   RTVUSRPRF  RTNUSRPRF(&USER) PRVSIGN(&PRVSIGN)
+                   CHGVAR     &DATE (%SST(&PRVSIGN 4 2) *CAT '/' *CAT %SST(&PRVSIGN 6 2) *CAT +
+                                '/' *CAT  %SST(&PRVSIGN 2 2))
+                   CHGVAR     &TIME (%SST(&PRVSIGN 8 2) *CAT ':' *CAT %SST(&PRVSIGN 10 2) *CAT +
+                                ':' *CAT  %SST(&PRVSIGN 12 2))
+
+                   CHGVAR     &MESSAGE ('Previous sign on for user ' *CAT &USER *CAT 'was on ' +
+                                *CAT &DATE *CAT ' ' *CAT &TIME)
+                   CHGVAR     &MESSAGE1 ('CLLE Programs can report on and manage the users on +
+                                the system')
+                   CHGVAR     &INVALID (' ')
+                ENDSUBR
+
+                SUBR       OPTION5
+                   RTVOBJD    OBJ(QSYS/QCMD) OBJTYPE(*PGM) SYSLVL(&SYSLVL)
+                   CHGVAR     &MESSAGE ('The sysyem level of the operating system is ' *CAT +
+                                &SYSLVL)
+                   CHGVAR     &MESSAGE1 ('CLLE Programs can report on system information')
+                   CHGVAR     &INVALID (' ')
+
+                ENDSUBR
+
+                SUBR       INVALID
+                   CHGVAR     &INVALID 'Valid option must be entered'
+                   CHGVAR     &IN30 '0'
+                   CHGVAR     &MESSAGE ' '
+                   CHGVAR     &MESSAGE1 ' '
+                ENDSUBR
+
+                   ENDPGM 
