@@ -1,0 +1,37 @@
+             PGM
+             DCLF       LAB4DSP
+
+             SNDRCVF
+             DOWHILE    (&IN03 = '0')
+
+                SELECT
+                   WHEN       (&OPTION = '1' *OR &OPTION = '01') DO
+                      CHGVAR     &MESSAGE ('Option 1')
+                   ENDDO
+                   WHEN       (&OPTION = '2' *OR &OPTION = '02') CALLSUBR OPTION2
+                   WHEN       (&OPTION = '3' *OR &OPTION = '03') CALLSUBR OPTION3
+                   WHEN       (&OPTION = '4' *OR &OPTION = '04') CALLSUBR OPTION4
+                   WHEN       (&OPTION = '5' *OR &OPTION = '05') CALLSUBR OPTION5
+                   OTHERWISE  CHGVAR &IN30 '1'
+                ENDSELECT
+                SNDRCVF
+                CHGVAR     &IN30 '0'
+
+
+             ENDDO
+
+
+                SUBR       OPTION2
+                   CHGVAR     &MESSAGE ('Option 2')
+                ENDSUBR
+                SUBR       OPTION3
+                   CHGVAR     &MESSAGE ('Option 3')
+                ENDSUBR
+                SUBR       OPTION4
+                   CHGVAR     &MESSAGE ('Option 4')
+                ENDSUBR
+                SUBR       OPTION5
+                   CHGVAR     &MESSAGE ('Option 5')
+                ENDSUBR
+
+                   ENDPGM      
