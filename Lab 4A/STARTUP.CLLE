@@ -1,0 +1,6 @@
+             PGM
+             CALL       QGPL/STRJOB
+             ADDLIBLE   BCI433LIB
+             MONMSG     MSGID(CPF2103)
+             DSPSYSLVL  OUTPUT(*DISPLAY)
+             ENDPGM         
