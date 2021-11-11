@@ -1,0 +1,25 @@
+     A          R RECORD1
+     A                                  2  3'DB433D24'
+     A                                  3  3'SHANI PATEL'
+     A                                  1 18'S E N E C A    Payroll    Program -
+     A                                      Completed'
+     A                                  1 74DATE
+     A                                  2 71TIME
+     A                                  4 19'Day Hours:'
+     A                                  5 19'Afternoon Hours:'
+     A                                  6 19'Night Hours:'
+     A                                 10  6'Totals:'
+     A                                 11 18'Regular Pay:'
+     A            TOTREGPAY      9  2O 11 37EDTCDE(1)
+     A                                 12 18'Overtime Pay:'
+     A            TOTOVTPAY      9  2O 12 37EDTCDE(1)
+     A                                 13 18'Company Payout:'
+     A            TOTWKPAY       9  2O 13 36EDTCDE(1 $)
+     A            DAYHRS    R        B  4 36REFFLD(SHIFTRATES/DAYHRS +
+     A                                      SENECAPAY/SHIFTRATES)
+     A            NIGHTHRS  R        B  6 36REFFLD(SHIFTRATES/NIGHTHRS +
+     A                                      SENECAPAY/SHIFTRATES)
+     A            AFTHRS    R        B  5 36REFFLD(SHIFTRATES/AFTHRS +
+     A                                      SENECAPAY/SHIFTRATES)
+     A            SHIFTTYPE     30   O  8 25
+                                                    
